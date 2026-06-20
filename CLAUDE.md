@@ -14,17 +14,17 @@ Documentation site for [blit386.dev](https://blit386.dev), built with Fumapress,
 
 ## Where to Find Information
 
-| Question                  | Where to look                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------------------- |
-| How is content organized? | `content/`, optional `meta.json` per folder                                                       |
-| Site and plugin config?   | `press.config.tsx`                                                                                |
-| MDX collection config?    | `source.config.ts`                                                                                |
-| Waku / Vite plugins?      | `waku.config.ts`                                                                                  |
-| Global styles?            | `src/app.css`                                                                                     |
-| Generated MDX loader?     | `.source/` (gitignored; run `fumadocs-mdx` or `pnpm run typecheck`)                               |
-| Engine API truth?         | [blit386 GitHub docs](https://github.com/blit386/blit386/tree/main/docs) — link, do not duplicate |
-| CI and deploy?            | `.github/workflows/ci.yml`                                                                        |
-| Agent skills?             | `.claude/skills/` (`fp-*` prefix)                                                                 |
+| Question                  | Where to look                                                                                             |
+| ------------------------- | --------------------------------------------------------------------------------------------------------- |
+| How is content organized? | `content/`, optional `meta.json` per folder                                                               |
+| Site and plugin config?   | `press.config.tsx`                                                                                        |
+| MDX collection config?    | `source.config.ts`                                                                                        |
+| Waku / Vite plugins?      | `waku.config.ts`                                                                                          |
+| Global styles?            | `src/app.css`                                                                                             |
+| Generated MDX loader?     | `.source/` (gitignored; run `fumadocs-mdx` or `pnpm run typecheck`)                                       |
+| Engine API truth?         | Canonical source is `blit386/docs/`; public pages are **mirrored** here under `content/docs/` (see below) |
+| CI and deploy?            | `.github/workflows/ci.yml`                                                                                |
+| Agent skills?             | `.claude/skills/` (`fp-*` prefix)                                                                         |
 
 ## Architecture
 
@@ -48,14 +48,33 @@ blit386-dev-fumapress/
 
 - Doc files: `content/**/*.mdx` (or `.md`) with required frontmatter `title`; optional `description`, `icon`, `full`
 - Sidebar: optional `meta.json` or `meta.yaml` per folder (`title`, `pages`, `root`, `icon`, …)
-- Prefer linking to the [blit386 engine repo](https://github.com/blit386/blit386) for API details instead of copying
-  tables that will drift
+- Public engine docs are **mirrored** here from `blit386/docs/` (see Documentation mirror below); edit the canonical
+  copy in the engine repo first, then sync the matching `content/docs/**/index.mdx`
 - No emoji in content, code, commits, or UI strings
+
+## Documentation mirror
+
+This site publishes a mirror of the **public** subset of the engine documentation. The canonical prose lives in the
+sibling `blit386` repo under `docs/` and is edited there first; public pages are then ported to `content/docs/` here.
+The migration plan and source-to-URL map live in [`DOCUMENTATION_MIGRATION.md`](DOCUMENTATION_MIGRATION.md).
+
+- **Canonical edit location:** `blit386/docs/*.md` (engine repo). Do not fork content with divergent edits here.
+- **Published location:** `content/docs/**/index.mdx` (folder + `index.mdx` -> nested URL, e.g.
+  `content/docs/api/core/index.mdx` -> `/docs/api/core`).
+- **Link rewriting in ported pages:** intra-doc links become root-relative site paths (`[API: Core](/docs/api/core)`);
+  contributor-only or non-doc targets become absolute GitHub URLs (`https://github.com/blit386/blit386/blob/main/...`).
+- **Contributor-only pages stay link-only on GitHub:** developer experience guide, voice, tooling, and `security/*`.
+- **Frontmatter:** every page needs `title` (quote values containing a colon, e.g. `title: "API: Core"`) and a
+  `description`. Remove the source H1 when it duplicates the title.
+- **Sync on engine API change:** edit the engine doc, copy to the matching `content/docs/**/index.mdx`, rewrite any new
+  cross-links, then run `pnpm run preflight` here.
 
 ## Critical Rules
 
 1. **Documentation ships with changes** — update `content/` and run `pnpm run docs:links` when adding links
-2. **Engine API lives in blit386** — this site summarizes and links; canonical API docs stay in the engine repo
+2. **This site is the published mirror of the engine public docs** — public API and guide pages are ported from
+   `blit386/docs/`; the canonical edit location stays the engine repo, and changes are synced here (see Documentation
+   mirror). Contributor-only pages (developer experience, voice, tooling, security) remain link-only on GitHub.
 3. **Use pnpm run** — `pnpm run preflight`, not bare `pnpm preflight` (RTK hooks)
 4. **Conventional Commits + DCO** — `git commit -s`
 5. **Cloudflare build** — production builds require `CLOUDFLARE=1` (included in `pnpm run build`)

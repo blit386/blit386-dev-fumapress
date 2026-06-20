@@ -51,11 +51,14 @@ pnpm run deploy   # wrangler deploy --config dist/server/wrangler.json --name bl
 
 ## Content
 
-Documentation lives in `content/` as MDX files. Real pages are coming soon — the scaffold includes placeholder routes
-only.
+Documentation lives in `content/` as MDX files. The site publishes a mirror of the **public** subset of the engine
+documentation: API reference and guides are ported from the [blit386 repository](https://github.com/blit386/blit386)
+under `docs/`, which remains the canonical edit location. See [`DOCUMENTATION_MIGRATION.md`](DOCUMENTATION_MIGRATION.md)
+for the full plan and source-to-URL map, and `CLAUDE.md` (Documentation mirror) for the conventions.
 
-For engine API reference, see the [blit386 repository](https://github.com/blit386/blit386/tree/main/docs). For
-interactive examples, visit [demos.blit386.dev](https://demos.blit386.dev).
+Contributor-only documentation (developer experience guide, voice, tooling, security runbook) stays on GitHub in the
+[engine repo](https://github.com/blit386/blit386/tree/main/docs). For interactive examples, visit
+[demos.blit386.dev](https://demos.blit386.dev).
 
 ## Agent policy
 

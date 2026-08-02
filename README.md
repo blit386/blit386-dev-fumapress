@@ -1,3 +1,7 @@
+> **This repository has moved.** Its content now lives in the [`blit386/blit386`](https://github.com/blit386/blit386)
+> monorepo, at [`packages/website`](https://github.com/blit386/blit386/tree/main/packages/website). Full history is
+> preserved there – this repo stays archived (read-only) so its original commit SHAs and links keep working.
+
 # blit386.dev Documentation Site
 
 Source for [blit386.dev](https://blit386.dev) – the public documentation site for the
